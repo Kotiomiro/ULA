@@ -1,0 +1,44 @@
+module ALU #(parameter int N = 8) (
+    input  logic [N-1:0]  a,         
+    input  logic [N-1:0]  b,        
+    input  logic [2:0]    ope,      
+    output logic [N-1:0]  result,   
+    output logic          cout 
+);
+
+    // Definindo os bits de entrada para identificar as operações da ULA
+    localparam ADD      = 3'b000;
+    localparam SUB      = 3'b001;
+    localparam MUL      = 3'b010;
+    localparam AND      = 3'b011;
+    localparam OR       = 3'b100;
+
+
+    logic [N-1:0] add_result, sub_result, mul_result, and_result, or_result;
+    logic carry_out_interno;
+
+    
+    assign add_result = a + b;
+    assign sub_result = a - b;
+    assign mul_result = a * b;
+    assign and_result = a & b;
+    assign or_result  = a | b;
+
+   
+    assign carry_out_interno = (a[N-1] & b[N-1]) | ((a[N-1] ^ b[N-1]) & add_result[N-1]);
+
+    
+    always_comb begin
+        case (ope)
+            ADD:      result = add_result;
+            SUB:      result = sub_result;
+            MUL:      result = mul_result;
+            AND:      result = and_result;
+            OR:       result = or_result;
+            default:  result = '0; // Caso padrão apenas para prevenir entradas inválidas
+        endcase
+    end
+
+    assign cout = (op == ADD) ? carry_out_interno : 1'b0;
+
+endmodule
