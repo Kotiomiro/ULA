@@ -1,4 +1,4 @@
-module ALU #(parameter int N = 8) (
+module ALU #(parameter int N = 4) (
     input  logic [N-1:0]  a,         
     input  logic [N-1:0]  b,        
     input  logic [2:0]    ope,      
