@@ -13,18 +13,18 @@ module ALU #(parameter int N = 4) (
     localparam AND      = 3'b011;
     localparam OR       = 3'b100;
 
-
+    // Definindo as saídas com base nos bits do parâmetro N
     logic [N-1:0] add_result, sub_result, mul_result, and_result, or_result;
     logic carry_out_interno;
 
-    
+    // Assign usado para atribuir os valores de saída das operações
     assign add_result = a + b;
     assign sub_result = a - b;
     assign mul_result = a * b;
     assign and_result = a & b;
     assign or_result  = a | b;
 
-   
+    // Criando o carry interno das somas
     assign carry_out_interno = (a[N-1] & b[N-1]) | ((a[N-1] ^ b[N-1]) & add_result[N-1]);
 
     
@@ -38,7 +38,7 @@ module ALU #(parameter int N = 4) (
             default:  result = '0; // Caso padrão apenas para prevenir entradas inválidas
         endcase
     end
-
+    // Cout de saída das operações
     assign cout = (op == ADD) ? carry_out_interno : 1'b0;
 
 endmodule
